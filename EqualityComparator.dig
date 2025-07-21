@@ -64,7 +64,12 @@ end architecture Behavioral;</string>
     </visualElement>
     <visualElement>
       <elementName>Out</elementName>
-      <elementAttributes/>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>out</string>
+        </entry>
+      </elementAttributes>
       <pos x="860" y="200"/>
     </visualElement>
     <visualElement>
