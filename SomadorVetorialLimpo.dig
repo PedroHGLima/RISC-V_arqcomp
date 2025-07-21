@@ -1,0 +1,1924 @@
+<?xml version="1.0" encoding="utf-8"?>
+<circuit>
+  <version>2</version>
+  <attributes/>
+  <visualElements>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>mode_i</string>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>bin</intFormat>
+        </entry>
+      </elementAttributes>
+      <pos x="-220" y="560"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>inverter</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:32,sel</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>s:32</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY inverter IS
+    PORT (
+        a : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        sel : IN STD_LOGIC;
+        s : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+    );
+END inverter;
+
+ARCHITECTURE behavior OF inverter IS
+BEGIN
+    PROCESS (a, sel)
+    BEGIN
+        CASE sel IS
+            WHEN &apos;1&apos; =&gt;
+                s &lt;= NOT a;
+            WHEN &apos;0&apos; =&gt;
+                s &lt;= a;
+            WHEN OTHERS =&gt;
+                s &lt;= (others =&gt; &apos;0&apos;);
+        END CASE;
+    END PROCESS;
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-40" y="500"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>signal_decoder</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:32,b:32</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>a0:4,a1:4,a2:4,a3:4,a4:4,a5:4,a6:4,a7:4,b0:4,b1:4,b2:4,b3:4,b4:4,b5:4,b6:4,b7:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY signal_decoder IS
+    PORT (
+        a, b : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+        a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+    );
+END signal_decoder;
+
+ARCHITECTURE Behavioral OF signal_decoder IS
+
+BEGIN
+    a0 &lt;= a(3 DOWNTO 0);
+    a1 &lt;= a(7 DOWNTO 4);
+    a2 &lt;= a(11 DOWNTO 8);
+    a3 &lt;= a(15 DOWNTO 12);
+    a4 &lt;= a(19 DOWNTO 16);
+    a5 &lt;= a(23 DOWNTO 20);
+    a6 &lt;= a(27 DOWNTO 24);
+    a7 &lt;= a(31 DOWNTO 28);
+
+    b0 &lt;= b(3 DOWNTO 0);
+    b1 &lt;= b(7 DOWNTO 4);
+    b2 &lt;= b(11 DOWNTO 8);
+    b3 &lt;= b(15 DOWNTO 12);
+    b4 &lt;= b(19 DOWNTO 16);
+    b5 &lt;= b(23 DOWNTO 20);
+    b6 &lt;= b(27 DOWNTO 24);
+    b7 &lt;= b(31 DOWNTO 28);
+END Behavioral;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="160" y="300"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>propagation_generator</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:4,b:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>vec_p:4,vec_g:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- propagation generator for CLA 4-Bit Adder
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY propagation_generator IS
+    PORT (
+        a, b : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        vec_p, vec_g : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END propagation_generator;
+
+ARCHITECTURE behavior OF propagation_generator IS
+
+BEGIN
+    PROCESS (a, b)
+    BEGIN
+	vec_p &lt;= a xor b;
+        vec_g &lt;= a and b;
+
+
+    END PROCESS;
+
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="600" y="120"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LookAhead4Bit</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>p:4,g:4,cin</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>cout,s:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- LookAhead 4-Bit
+
+LIBRARY ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY LookAhead4Bit IS
+    PORT(
+        p, g : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cin : IN STD_LOGIC;
+	cout : OUT STD_LOGIC;
+        s : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END LookAhead4Bit;
+
+ARCHITECTURE LookAhead4Bit OF LookAhead4Bit IS
+signal c1, c2, c3, c4 : STD_LOGIC;
+
+BEGIN
+    c1 &lt;= g(0) OR (p(0) AND cin);
+    c2 &lt;= g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)));
+    c3 &lt;= g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))));
+    c4 &lt;= g(3) OR (p(3) AND (g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))))));
+
+    s(0) &lt;= p(0) XOR cin;
+    s(1) &lt;= p(1) XOR c1;
+    s(2) &lt;= p(2) XOR c2;
+    s(3) &lt;= p(3) XOR c3;	
+    cout &lt;= c4;
+	
+END LookAhead4Bit;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1020" y="40"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>propagation_generator</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:4,b:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>vec_p:4,vec_g:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- propagation generator for CLA 4-Bit Adder
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY propagation_generator IS
+    PORT (
+        a, b : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        vec_p, vec_g : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END propagation_generator;
+
+ARCHITECTURE behavior OF propagation_generator IS
+
+BEGIN
+    PROCESS (a, b)
+    BEGIN
+	vec_p &lt;= a xor b;
+        vec_g &lt;= a and b;
+
+
+    END PROCESS;
+
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="600" y="260"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LookAhead4Bit</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>p:4,g:4,cin</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>cout,s:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- LookAhead 4-Bit
+
+LIBRARY ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY LookAhead4Bit IS
+    PORT(
+        p, g : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cin : IN STD_LOGIC;
+	cout : OUT STD_LOGIC;
+        s : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END LookAhead4Bit;
+
+ARCHITECTURE LookAhead4Bit OF LookAhead4Bit IS
+signal c1, c2, c3, c4 : STD_LOGIC;
+
+BEGIN
+    c1 &lt;= g(0) OR (p(0) AND cin);
+    c2 &lt;= g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)));
+    c3 &lt;= g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))));
+    c4 &lt;= g(3) OR (p(3) AND (g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))))));
+
+    s(0) &lt;= p(0) XOR cin;
+    s(1) &lt;= p(1) XOR c1;
+    s(2) &lt;= p(2) XOR c2;
+    s(3) &lt;= p(3) XOR c3;	
+    cout &lt;= c4;
+	
+END LookAhead4Bit;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1020" y="180"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>propagation_generator</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:4,b:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>vec_p:4,vec_g:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- propagation generator for CLA 4-Bit Adder
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY propagation_generator IS
+    PORT (
+        a, b : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        vec_p, vec_g : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END propagation_generator;
+
+ARCHITECTURE behavior OF propagation_generator IS
+
+BEGIN
+    PROCESS (a, b)
+    BEGIN
+	vec_p &lt;= a xor b;
+        vec_g &lt;= a and b;
+
+
+    END PROCESS;
+
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="600" y="400"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LookAhead4Bit</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>p:4,g:4,cin</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>cout,s:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- LookAhead 4-Bit
+
+LIBRARY ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY LookAhead4Bit IS
+    PORT(
+        p, g : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cin : IN STD_LOGIC;
+	cout : OUT STD_LOGIC;
+        s : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END LookAhead4Bit;
+
+ARCHITECTURE LookAhead4Bit OF LookAhead4Bit IS
+signal c1, c2, c3, c4 : STD_LOGIC;
+
+BEGIN
+    c1 &lt;= g(0) OR (p(0) AND cin);
+    c2 &lt;= g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)));
+    c3 &lt;= g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))));
+    c4 &lt;= g(3) OR (p(3) AND (g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))))));
+
+    s(0) &lt;= p(0) XOR cin;
+    s(1) &lt;= p(1) XOR c1;
+    s(2) &lt;= p(2) XOR c2;
+    s(3) &lt;= p(3) XOR c3;	
+    cout &lt;= c4;
+	
+END LookAhead4Bit;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1020" y="320"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>propagation_generator</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:4,b:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>vec_p:4,vec_g:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- propagation generator for CLA 4-Bit Adder
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY propagation_generator IS
+    PORT (
+        a, b : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        vec_p, vec_g : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END propagation_generator;
+
+ARCHITECTURE behavior OF propagation_generator IS
+
+BEGIN
+    PROCESS (a, b)
+    BEGIN
+	vec_p &lt;= a xor b;
+        vec_g &lt;= a and b;
+
+
+    END PROCESS;
+
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="600" y="540"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LookAhead4Bit</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>p:4,g:4,cin</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>cout,s:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- LookAhead 4-Bit
+
+LIBRARY ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY LookAhead4Bit IS
+    PORT(
+        p, g : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cin : IN STD_LOGIC;
+	cout : OUT STD_LOGIC;
+        s : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END LookAhead4Bit;
+
+ARCHITECTURE LookAhead4Bit OF LookAhead4Bit IS
+signal c1, c2, c3, c4 : STD_LOGIC;
+
+BEGIN
+    c1 &lt;= g(0) OR (p(0) AND cin);
+    c2 &lt;= g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)));
+    c3 &lt;= g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))));
+    c4 &lt;= g(3) OR (p(3) AND (g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))))));
+
+    s(0) &lt;= p(0) XOR cin;
+    s(1) &lt;= p(1) XOR c1;
+    s(2) &lt;= p(2) XOR c2;
+    s(3) &lt;= p(3) XOR c3;	
+    cout &lt;= c4;
+	
+END LookAhead4Bit;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1020" y="460"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>propagation_generator</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:4,b:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>vec_p:4,vec_g:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- propagation generator for CLA 4-Bit Adder
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY propagation_generator IS
+    PORT (
+        a, b : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        vec_p, vec_g : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END propagation_generator;
+
+ARCHITECTURE behavior OF propagation_generator IS
+
+BEGIN
+    PROCESS (a, b)
+    BEGIN
+	vec_p &lt;= a xor b;
+        vec_g &lt;= a and b;
+
+
+    END PROCESS;
+
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="600" y="680"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LookAhead4Bit</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>p:4,g:4,cin</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>cout,s:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- LookAhead 4-Bit
+
+LIBRARY ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY LookAhead4Bit IS
+    PORT(
+        p, g : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cin : IN STD_LOGIC;
+	cout : OUT STD_LOGIC;
+        s : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END LookAhead4Bit;
+
+ARCHITECTURE LookAhead4Bit OF LookAhead4Bit IS
+signal c1, c2, c3, c4 : STD_LOGIC;
+
+BEGIN
+    c1 &lt;= g(0) OR (p(0) AND cin);
+    c2 &lt;= g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)));
+    c3 &lt;= g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))));
+    c4 &lt;= g(3) OR (p(3) AND (g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))))));
+
+    s(0) &lt;= p(0) XOR cin;
+    s(1) &lt;= p(1) XOR c1;
+    s(2) &lt;= p(2) XOR c2;
+    s(3) &lt;= p(3) XOR c3;	
+    cout &lt;= c4;
+	
+END LookAhead4Bit;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1020" y="600"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>propagation_generator</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:4,b:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>vec_p:4,vec_g:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- propagation generator for CLA 4-Bit Adder
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY propagation_generator IS
+    PORT (
+        a, b : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        vec_p, vec_g : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END propagation_generator;
+
+ARCHITECTURE behavior OF propagation_generator IS
+
+BEGIN
+    PROCESS (a, b)
+    BEGIN
+	vec_p &lt;= a xor b;
+        vec_g &lt;= a and b;
+
+
+    END PROCESS;
+
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="600" y="820"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LookAhead4Bit</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>p:4,g:4,cin</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>cout,s:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- LookAhead 4-Bit
+
+LIBRARY ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY LookAhead4Bit IS
+    PORT(
+        p, g : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cin : IN STD_LOGIC;
+	cout : OUT STD_LOGIC;
+        s : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END LookAhead4Bit;
+
+ARCHITECTURE LookAhead4Bit OF LookAhead4Bit IS
+signal c1, c2, c3, c4 : STD_LOGIC;
+
+BEGIN
+    c1 &lt;= g(0) OR (p(0) AND cin);
+    c2 &lt;= g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)));
+    c3 &lt;= g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))));
+    c4 &lt;= g(3) OR (p(3) AND (g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))))));
+
+    s(0) &lt;= p(0) XOR cin;
+    s(1) &lt;= p(1) XOR c1;
+    s(2) &lt;= p(2) XOR c2;
+    s(3) &lt;= p(3) XOR c3;	
+    cout &lt;= c4;
+	
+END LookAhead4Bit;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1020" y="740"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>propagation_generator</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:4,b:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>vec_p:4,vec_g:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- propagation generator for CLA 4-Bit Adder
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY propagation_generator IS
+    PORT (
+        a, b : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        vec_p, vec_g : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END propagation_generator;
+
+ARCHITECTURE behavior OF propagation_generator IS
+
+BEGIN
+    PROCESS (a, b)
+    BEGIN
+	vec_p &lt;= a xor b;
+        vec_g &lt;= a and b;
+
+
+    END PROCESS;
+
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="600" y="960"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LookAhead4Bit</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>p:4,g:4,cin</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>cout,s:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- LookAhead 4-Bit
+
+LIBRARY ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY LookAhead4Bit IS
+    PORT(
+        p, g : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cin : IN STD_LOGIC;
+	cout : OUT STD_LOGIC;
+        s : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END LookAhead4Bit;
+
+ARCHITECTURE LookAhead4Bit OF LookAhead4Bit IS
+signal c1, c2, c3, c4 : STD_LOGIC;
+
+BEGIN
+    c1 &lt;= g(0) OR (p(0) AND cin);
+    c2 &lt;= g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)));
+    c3 &lt;= g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))));
+    c4 &lt;= g(3) OR (p(3) AND (g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))))));
+
+    s(0) &lt;= p(0) XOR cin;
+    s(1) &lt;= p(1) XOR c1;
+    s(2) &lt;= p(2) XOR c2;
+    s(3) &lt;= p(3) XOR c3;	
+    cout &lt;= c4;
+	
+END LookAhead4Bit;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1020" y="880"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>propagation_generator</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>a:4,b:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>vec_p:4,vec_g:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- propagation generator for CLA 4-Bit Adder
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY propagation_generator IS
+    PORT (
+        a, b : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        vec_p, vec_g : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END propagation_generator;
+
+ARCHITECTURE behavior OF propagation_generator IS
+
+BEGIN
+    PROCESS (a, b)
+    BEGIN
+	vec_p &lt;= a xor b;
+        vec_g &lt;= a and b;
+
+
+    END PROCESS;
+
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="600" y="1100"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LookAhead4Bit</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>p:4,g:4,cin</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>cout,s:4</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- LookAhead 4-Bit
+
+LIBRARY ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY LookAhead4Bit IS
+    PORT(
+        p, g : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        cin : IN STD_LOGIC;
+	cout : OUT STD_LOGIC;
+        s : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+
+    );
+END LookAhead4Bit;
+
+ARCHITECTURE LookAhead4Bit OF LookAhead4Bit IS
+signal c1, c2, c3, c4 : STD_LOGIC;
+
+BEGIN
+    c1 &lt;= g(0) OR (p(0) AND cin);
+    c2 &lt;= g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)));
+    c3 &lt;= g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))));
+    c4 &lt;= g(3) OR (p(3) AND (g(2) OR (p(2) AND (g(1) OR (p(1) AND (g(0) OR (p(0) AND cin)))))));
+
+    s(0) &lt;= p(0) XOR cin;
+    s(1) &lt;= p(1) XOR c1;
+    s(2) &lt;= p(2) XOR c2;
+    s(3) &lt;= p(3) XOR c3;	
+    cout &lt;= c4;
+	
+END LookAhead4Bit;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1020" y="1020"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>lookAhead_out</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1220" y="1120"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>output_size</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>s0:4,s1:4,s2:4,s3:4,s4:4,s5:4,s6:4,s7:4,sel:2</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>s:32</string>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>-- moduling different sizes of adders
+
+LIBRARY ieee;
+use ieee.std_logic_1164.ALL;
+use ieee.numeric_std.all;
+
+ENTITY output_size IS
+    PORT (
+        s0, s1, s2, s3, s4, s5, s6, s7 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        sel : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+        s : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+    );
+END output_size;
+
+ARCHITECTURE behavior OF output_size IS
+    SIGNAL s_int : STD_LOGIC_VECTOR(31 DOWNTO 0);
+
+BEGIN
+    s_int(3 DOWNTO 0) &lt;= s0;
+    s_int(7 DOWNTO 4) &lt;= s1;
+    s_int(11 DOWNTO 8) &lt;= s2;
+    s_int(15 DOWNTO 12) &lt;= s3;
+    s_int(19 DOWNTO 16) &lt;= s4;
+    s_int(23 DOWNTO 20) &lt;= s5;
+    s_int(27 DOWNTO 24) &lt;= s6;
+    s_int(31 DOWNTO 28) &lt;= s7;
+
+    PROCESS (sel)
+    BEGIN
+        CASE sel IS
+            WHEN &quot;00&quot; =&gt;
+                s &lt;= std_logic_vector(unsigned(s_int) and x&quot;0000000F&quot;);
+            WHEN &quot;01&quot; =&gt;
+                s &lt;= std_logic_vector(unsigned(s_int) and x&quot;000000FF&quot;);
+            WHEN &quot;10&quot; =&gt;
+                s &lt;= std_logic_vector(unsigned(s_int) and x&quot;0000FFFF&quot;);
+            WHEN &quot;11&quot; =&gt;
+                s &lt;= s_int;
+            WHEN OTHERS =&gt;
+                s &lt;= &quot;00000000000000000000000000000000&quot;;
+        END CASE;
+    END PROCESS;
+END behavior;</string>
+        </entry>
+      </elementAttributes>
+      <pos x="1680" y="400"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>vecSize</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>2</int>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>bin</intFormat>
+        </entry>
+        <entry>
+          <string>InDefault</string>
+          <value v="3" z="false"/>
+        </entry>
+      </elementAttributes>
+      <pos x="1480" y="560"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>sum_out</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>32</int>
+        </entry>
+      </elementAttributes>
+      <pos x="2120" y="480"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>A</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>32</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-440" y="200"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>B</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>32</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-440" y="260"/>
+    </visualElement>
+  </visualElements>
+  <wires>
+    <wire>
+      <p1 x="1000" y="640"/>
+      <p2 x="1020" y="640"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="320"/>
+      <p2 x="1020" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="320"/>
+      <p2 x="1200" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="320"/>
+      <p2 x="460" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="140" y="320"/>
+      <p2 x="160" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="960"/>
+      <p2 x="780" y="960"/>
+    </wire>
+    <wire>
+      <p1 x="460" y="960"/>
+      <p2 x="600" y="960"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="260"/>
+      <p2 x="780" y="260"/>
+    </wire>
+    <wire>
+      <p1 x="460" y="260"/>
+      <p2 x="600" y="260"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="260"/>
+      <p2 x="140" y="260"/>
+    </wire>
+    <wire>
+      <p1 x="-440" y="260"/>
+      <p2 x="-280" y="260"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="900"/>
+      <p2 x="1020" y="900"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="900"/>
+      <p2 x="1340" y="900"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="580"/>
+      <p2 x="1200" y="580"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="580"/>
+      <p2 x="400" y="580"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="520"/>
+      <p2 x="540" y="520"/>
+    </wire>
+    <wire>
+      <p1 x="120" y="520"/>
+      <p2 x="140" y="520"/>
+    </wire>
+    <wire>
+      <p1 x="1340" y="520"/>
+      <p2 x="1680" y="520"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="200"/>
+      <p2 x="1020" y="200"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="200"/>
+      <p2 x="1640" y="200"/>
+    </wire>
+    <wire>
+      <p1 x="-440" y="200"/>
+      <p2 x="-160" y="200"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="840"/>
+      <p2 x="800" y="840"/>
+    </wire>
+    <wire>
+      <p1 x="480" y="840"/>
+      <p2 x="600" y="840"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="780"/>
+      <p2 x="1020" y="780"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="1100"/>
+      <p2 x="780" y="1100"/>
+    </wire>
+    <wire>
+      <p1 x="420" y="1100"/>
+      <p2 x="600" y="1100"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="460"/>
+      <p2 x="440" y="460"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="460"/>
+      <p2 x="1020" y="460"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="460"/>
+      <p2 x="1200" y="460"/>
+    </wire>
+    <wire>
+      <p1 x="1280" y="460"/>
+      <p2 x="1680" y="460"/>
+    </wire>
+    <wire>
+      <p1 x="440" y="140"/>
+      <p2 x="600" y="140"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="140"/>
+      <p2 x="800" y="140"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="140"/>
+      <p2 x="1200" y="140"/>
+    </wire>
+    <wire>
+      <p1 x="-80" y="80"/>
+      <p2 x="1020" y="80"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="1040"/>
+      <p2 x="1020" y="1040"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="1040"/>
+      <p2 x="1360" y="1040"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="400"/>
+      <p2 x="780" y="400"/>
+    </wire>
+    <wire>
+      <p1 x="580" y="400"/>
+      <p2 x="600" y="400"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="400"/>
+      <p2 x="500" y="400"/>
+    </wire>
+    <wire>
+      <p1 x="1660" y="400"/>
+      <p2 x="1680" y="400"/>
+    </wire>
+    <wire>
+      <p1 x="-280" y="400"/>
+      <p2 x="-100" y="400"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="720"/>
+      <p2 x="1200" y="720"/>
+    </wire>
+    <wire>
+      <p1 x="440" y="720"/>
+      <p2 x="480" y="720"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="980"/>
+      <p2 x="800" y="980"/>
+    </wire>
+    <wire>
+      <p1 x="440" y="980"/>
+      <p2 x="600" y="980"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="340"/>
+      <p2 x="1020" y="340"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="340"/>
+      <p2 x="580" y="340"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="340"/>
+      <p2 x="1620" y="340"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="920"/>
+      <p2 x="1020" y="920"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="280"/>
+      <p2 x="800" y="280"/>
+    </wire>
+    <wire>
+      <p1 x="480" y="280"/>
+      <p2 x="600" y="280"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="600"/>
+      <p2 x="1020" y="600"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="600"/>
+      <p2 x="1200" y="600"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="600"/>
+      <p2 x="360" y="600"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="220"/>
+      <p2 x="1020" y="220"/>
+    </wire>
+    <wire>
+      <p1 x="-80" y="540"/>
+      <p2 x="-40" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="540"/>
+      <p2 x="780" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="560" y="540"/>
+      <p2 x="600" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="540"/>
+      <p2 x="480" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="1360" y="540"/>
+      <p2 x="1680" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="860"/>
+      <p2 x="1200" y="860"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="1120"/>
+      <p2 x="800" y="1120"/>
+    </wire>
+    <wire>
+      <p1 x="1200" y="1120"/>
+      <p2 x="1220" y="1120"/>
+    </wire>
+    <wire>
+      <p1 x="360" y="1120"/>
+      <p2 x="600" y="1120"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="480"/>
+      <p2 x="1020" y="480"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="480"/>
+      <p2 x="480" y="480"/>
+    </wire>
+    <wire>
+      <p1 x="1300" y="480"/>
+      <p2 x="1680" y="480"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="480"/>
+      <p2 x="1280" y="480"/>
+    </wire>
+    <wire>
+      <p1 x="1840" y="480"/>
+      <p2 x="2120" y="480"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="1060"/>
+      <p2 x="1020" y="1060"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="420"/>
+      <p2 x="800" y="420"/>
+    </wire>
+    <wire>
+      <p1 x="580" y="420"/>
+      <p2 x="600" y="420"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="420"/>
+      <p2 x="460" y="420"/>
+    </wire>
+    <wire>
+      <p1 x="1640" y="420"/>
+      <p2 x="1680" y="420"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="740"/>
+      <p2 x="1020" y="740"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="740"/>
+      <p2 x="1200" y="740"/>
+    </wire>
+    <wire>
+      <p1 x="400" y="740"/>
+      <p2 x="440" y="740"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="680"/>
+      <p2 x="780" y="680"/>
+    </wire>
+    <wire>
+      <p1 x="520" y="680"/>
+      <p2 x="600" y="680"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="40"/>
+      <p2 x="1020" y="40"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="40"/>
+      <p2 x="1200" y="40"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="360"/>
+      <p2 x="1020" y="360"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="360"/>
+      <p2 x="560" y="360"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="1000"/>
+      <p2 x="1200" y="1000"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="300"/>
+      <p2 x="420" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="300"/>
+      <p2 x="1200" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="140" y="300"/>
+      <p2 x="160" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="620"/>
+      <p2 x="1020" y="620"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="620"/>
+      <p2 x="1300" y="620"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="880"/>
+      <p2 x="1020" y="880"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="880"/>
+      <p2 x="1200" y="880"/>
+    </wire>
+    <wire>
+      <p1 x="-220" y="560"/>
+      <p2 x="-80" y="560"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="560"/>
+      <p2 x="800" y="560"/>
+    </wire>
+    <wire>
+      <p1 x="540" y="560"/>
+      <p2 x="600" y="560"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="560"/>
+      <p2 x="440" y="560"/>
+    </wire>
+    <wire>
+      <p1 x="1480" y="560"/>
+      <p2 x="1680" y="560"/>
+    </wire>
+    <wire>
+      <p1 x="-100" y="500"/>
+      <p2 x="-40" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="500"/>
+      <p2 x="1020" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="500"/>
+      <p2 x="580" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="1320" y="500"/>
+      <p2 x="1680" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="180"/>
+      <p2 x="1020" y="180"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="180"/>
+      <p2 x="1200" y="180"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="820"/>
+      <p2 x="780" y="820"/>
+    </wire>
+    <wire>
+      <p1 x="500" y="820"/>
+      <p2 x="600" y="820"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="760"/>
+      <p2 x="1020" y="760"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="760"/>
+      <p2 x="1320" y="760"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="440"/>
+      <p2 x="1200" y="440"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="440"/>
+      <p2 x="420" y="440"/>
+    </wire>
+    <wire>
+      <p1 x="1620" y="440"/>
+      <p2 x="1680" y="440"/>
+    </wire>
+    <wire>
+      <p1 x="420" y="120"/>
+      <p2 x="600" y="120"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="120"/>
+      <p2 x="780" y="120"/>
+    </wire>
+    <wire>
+      <p1 x="320" y="380"/>
+      <p2 x="520" y="380"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="1020"/>
+      <p2 x="1020" y="1020"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="1020"/>
+      <p2 x="1200" y="1020"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="60"/>
+      <p2 x="1020" y="60"/>
+    </wire>
+    <wire>
+      <p1 x="1180" y="60"/>
+      <p2 x="1660" y="60"/>
+    </wire>
+    <wire>
+      <p1 x="760" y="700"/>
+      <p2 x="800" y="700"/>
+    </wire>
+    <wire>
+      <p1 x="480" y="700"/>
+      <p2 x="600" y="700"/>
+    </wire>
+    <wire>
+      <p1 x="1280" y="460"/>
+      <p2 x="1280" y="480"/>
+    </wire>
+    <wire>
+      <p1 x="580" y="340"/>
+      <p2 x="580" y="400"/>
+    </wire>
+    <wire>
+      <p1 x="580" y="420"/>
+      <p2 x="580" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="520" y="380"/>
+      <p2 x="520" y="680"/>
+    </wire>
+    <wire>
+      <p1 x="460" y="260"/>
+      <p2 x="460" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="460" y="420"/>
+      <p2 x="460" y="960"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="40"/>
+      <p2 x="780" y="120"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="180"/>
+      <p2 x="780" y="260"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="320"/>
+      <p2 x="780" y="400"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="460"/>
+      <p2 x="780" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="600"/>
+      <p2 x="780" y="680"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="740"/>
+      <p2 x="780" y="820"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="880"/>
+      <p2 x="780" y="960"/>
+    </wire>
+    <wire>
+      <p1 x="780" y="1020"/>
+      <p2 x="780" y="1100"/>
+    </wire>
+    <wire>
+      <p1 x="140" y="320"/>
+      <p2 x="140" y="520"/>
+    </wire>
+    <wire>
+      <p1 x="140" y="260"/>
+      <p2 x="140" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="-80" y="80"/>
+      <p2 x="-80" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="-80" y="540"/>
+      <p2 x="-80" y="560"/>
+    </wire>
+    <wire>
+      <p1 x="1360" y="540"/>
+      <p2 x="1360" y="1040"/>
+    </wire>
+    <wire>
+      <p1 x="400" y="580"/>
+      <p2 x="400" y="740"/>
+    </wire>
+    <wire>
+      <p1 x="1620" y="340"/>
+      <p2 x="1620" y="440"/>
+    </wire>
+    <wire>
+      <p1 x="1300" y="480"/>
+      <p2 x="1300" y="620"/>
+    </wire>
+    <wire>
+      <p1 x="-280" y="260"/>
+      <p2 x="-280" y="400"/>
+    </wire>
+    <wire>
+      <p1 x="540" y="520"/>
+      <p2 x="540" y="560"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="200"/>
+      <p2 x="-160" y="260"/>
+    </wire>
+    <wire>
+      <p1 x="480" y="280"/>
+      <p2 x="480" y="480"/>
+    </wire>
+    <wire>
+      <p1 x="480" y="540"/>
+      <p2 x="480" y="700"/>
+    </wire>
+    <wire>
+      <p1 x="480" y="720"/>
+      <p2 x="480" y="840"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="60"/>
+      <p2 x="800" y="140"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="200"/>
+      <p2 x="800" y="280"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="340"/>
+      <p2 x="800" y="420"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="480"/>
+      <p2 x="800" y="560"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="620"/>
+      <p2 x="800" y="700"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="760"/>
+      <p2 x="800" y="840"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="900"/>
+      <p2 x="800" y="980"/>
+    </wire>
+    <wire>
+      <p1 x="800" y="1040"/>
+      <p2 x="800" y="1120"/>
+    </wire>
+    <wire>
+      <p1 x="-100" y="400"/>
+      <p2 x="-100" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="420" y="120"/>
+      <p2 x="420" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="420" y="440"/>
+      <p2 x="420" y="1100"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="140"/>
+      <p2 x="1000" y="220"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="300"/>
+      <p2 x="1000" y="360"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="440"/>
+      <p2 x="1000" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="580"/>
+      <p2 x="1000" y="640"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="720"/>
+      <p2 x="1000" y="780"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="860"/>
+      <p2 x="1000" y="920"/>
+    </wire>
+    <wire>
+      <p1 x="1000" y="1000"/>
+      <p2 x="1000" y="1060"/>
+    </wire>
+    <wire>
+      <p1 x="360" y="600"/>
+      <p2 x="360" y="1120"/>
+    </wire>
+    <wire>
+      <p1 x="1640" y="200"/>
+      <p2 x="1640" y="420"/>
+    </wire>
+    <wire>
+      <p1 x="1320" y="500"/>
+      <p2 x="1320" y="760"/>
+    </wire>
+    <wire>
+      <p1 x="1200" y="40"/>
+      <p2 x="1200" y="140"/>
+    </wire>
+    <wire>
+      <p1 x="1200" y="180"/>
+      <p2 x="1200" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="1200" y="320"/>
+      <p2 x="1200" y="440"/>
+    </wire>
+    <wire>
+      <p1 x="1200" y="460"/>
+      <p2 x="1200" y="580"/>
+    </wire>
+    <wire>
+      <p1 x="1200" y="600"/>
+      <p2 x="1200" y="720"/>
+    </wire>
+    <wire>
+      <p1 x="1200" y="740"/>
+      <p2 x="1200" y="860"/>
+    </wire>
+    <wire>
+      <p1 x="1200" y="880"/>
+      <p2 x="1200" y="1000"/>
+    </wire>
+    <wire>
+      <p1 x="1200" y="1020"/>
+      <p2 x="1200" y="1120"/>
+    </wire>
+    <wire>
+      <p1 x="560" y="360"/>
+      <p2 x="560" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="500" y="400"/>
+      <p2 x="500" y="820"/>
+    </wire>
+    <wire>
+      <p1 x="440" y="140"/>
+      <p2 x="440" y="460"/>
+    </wire>
+    <wire>
+      <p1 x="440" y="560"/>
+      <p2 x="440" y="720"/>
+    </wire>
+    <wire>
+      <p1 x="440" y="740"/>
+      <p2 x="440" y="980"/>
+    </wire>
+    <wire>
+      <p1 x="1340" y="520"/>
+      <p2 x="1340" y="900"/>
+    </wire>
+    <wire>
+      <p1 x="1660" y="60"/>
+      <p2 x="1660" y="400"/>
+    </wire>
+  </wires>
+  <measurementOrdering/>
+</circuit>

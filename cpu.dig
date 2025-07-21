@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<circuit>
+  <version>2</version>
+  <attributes/>
+  <visualElements>
+    <visualElement>
+      <elementName>BancoRegistradores.dig</elementName>
+      <elementAttributes/>
+      <pos x="500" y="180"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LeftShifter.dig</elementName>
+      <elementAttributes/>
+      <pos x="660" y="240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>RightShifter.dig</elementName>
+      <elementAttributes/>
+      <pos x="660" y="340"/>
+    </visualElement>
+  </visualElements>
+  <wires/>
+  <measurementOrdering/>
+</circuit>
