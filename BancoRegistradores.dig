@@ -21,12 +21,12 @@
       <elementName>Multiplexer</elementName>
       <elementAttributes>
         <entry>
-          <string>Bits</string>
-          <int>32</int>
-        </entry>
-        <entry>
           <string>Selector Bits</string>
           <int>5</int>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>32</int>
         </entry>
       </elementAttributes>
       <pos x="860" y="60"/>
@@ -479,16 +479,16 @@
       <elementName>In</elementName>
       <elementAttributes>
         <entry>
+          <string>rotation</string>
+          <rotation rotation="1"/>
+        </entry>
+        <entry>
           <string>Label</string>
-          <string>rs_2</string>
+          <string>read_register_2</string>
         </entry>
         <entry>
           <string>Bits</string>
           <int>5</int>
-        </entry>
-        <entry>
-          <string>rotation</string>
-          <rotation rotation="1"/>
         </entry>
       </elementAttributes>
       <pos x="880" y="740"/>
@@ -498,7 +498,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>rd</string>
+          <string>write_register</string>
         </entry>
         <entry>
           <string>Bits</string>
@@ -512,7 +512,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>rs_1</string>
+          <string>read_register_1</string>
         </entry>
         <entry>
           <string>Bits</string>
@@ -526,7 +526,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>WriteData</string>
+          <string>write_data</string>
         </entry>
         <entry>
           <string>Bits</string>
@@ -540,7 +540,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>Clock</string>
+          <string>clock</string>
         </entry>
       </elementAttributes>
       <pos x="-320" y="-160"/>
@@ -550,7 +550,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>regWrite</string>
+          <string>write</string>
         </entry>
       </elementAttributes>
       <pos x="-860" y="400"/>
@@ -574,7 +574,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>readData1</string>
+          <string>read_data1</string>
         </entry>
         <entry>
           <string>Bits</string>
@@ -588,7 +588,7 @@
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>readData2</string>
+          <string>read_data2</string>
         </entry>
         <entry>
           <string>Bits</string>
