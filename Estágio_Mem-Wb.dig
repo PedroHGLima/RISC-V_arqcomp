@@ -12,7 +12,7 @@
         </entry>
         <entry>
           <string>Label</string>
-          <string>ex_mem</string>
+          <string>Mem_Wb</string>
         </entry>
         <entry>
           <string>externalInputs</string>
@@ -28,7 +28,7 @@
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity ex_mem is
+entity Mem_Wb is
     Port (
         clock          : in  STD_LOGIC;
         reset          : in  STD_LOGIC;
@@ -50,9 +50,9 @@ entity ex_mem is
         pc_mais_4_out  : out STD_LOGIC_VECTOR(31 downto 0);
         imm_out        : out STD_LOGIC_VECTOR(31 downto 0)
     );
-end ex_mem;
+end Mem_Wb;
 
-architecture Behavioral of ex_mem is
+architecture Behavioral of Mem_Wb is
 begin
     process(clock)
     begin
