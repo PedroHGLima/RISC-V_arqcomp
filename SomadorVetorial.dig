@@ -143,12 +143,16 @@ end architecture Behavioral;</string>
       <elementName>Out</elementName>
       <elementAttributes>
         <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
+          <string>Label</string>
+          <string>sum</string>
         </entry>
         <entry>
           <string>Bits</string>
           <int>32</int>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>dec</intFormat>
         </entry>
       </elementAttributes>
       <pos x="1020" y="-320"/>
@@ -168,8 +172,13 @@ end architecture Behavioral;</string>
       <pos x="620" y="-260"/>
     </visualElement>
     <visualElement>
-      <elementName>DipSwitch</elementName>
-      <elementAttributes/>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>mode</string>
+        </entry>
+      </elementAttributes>
       <pos x="620" y="-300"/>
     </visualElement>
   </visualElements>

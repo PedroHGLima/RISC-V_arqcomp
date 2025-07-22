@@ -12,11 +12,15 @@
         </entry>
         <entry>
           <string>Label</string>
-          <string>RightShifter</string>
+          <string>add_sum</string>
         </entry>
         <entry>
           <string>externalInputs</string>
-          <string>data_in_i:32,shift_amount_i:5</string>
+          <string>Data1:32,Data2:32</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>12</int>
         </entry>
         <entry>
           <string>Code</string>
@@ -24,87 +28,100 @@
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
--- Componente: RightShifter
--- Descrição: Deslocador lógico para a direita.
-entity RightShifter is
-    Port ( 
-        data_in_i      : in  STD_LOGIC_VECTOR (31 downto 0);
-        shift_amount_i : in  STD_LOGIC_VECTOR (4 downto 0);
-        data_out_o     : out STD_LOGIC_VECTOR (31 downto 0)
+entity add_sum is
+    Port (
+        Data1  : in  STD_LOGIC_VECTOR(31 downto 0);
+        Data2  : in  STD_LOGIC_VECTOR(31 downto 0);
+        Result : out STD_LOGIC_VECTOR(31 downto 0)
     );
-end RightShifter;
+end add_sum;
 
-architecture Behavioral of RightShifter is
+architecture Behavioral of add_sum is
 begin
-    data_out_o &lt;= std_logic_vector(shift_right(unsigned(data_in_i), to_integer(unsigned(shift_amount_i))));
+    process(Data1, Data2)
+    begin
+        Result &lt;= std_logic_vector(signed(Data1) + signed(Data2));
+    end process;
 end Behavioral;</string>
         </entry>
         <entry>
           <string>externalOutputs</string>
-          <string>data_out_o:32</string>
-        </entry>
-        <entry>
-          <string>Width</string>
-          <int>12</int>
+          <string>Result:32</string>
         </entry>
       </elementAttributes>
-      <pos x="720" y="360"/>
-    </visualElement>
-    <visualElement>
-      <elementName>In</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Label</string>
-          <string>data_in</string>
-        </entry>
-        <entry>
-          <string>Bits</string>
-          <int>32</int>
-        </entry>
-      </elementAttributes>
-      <pos x="620" y="360"/>
-    </visualElement>
-    <visualElement>
-      <elementName>In</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Label</string>
-          <string>shift_in</string>
-        </entry>
-        <entry>
-          <string>Bits</string>
-          <int>5</int>
-        </entry>
-      </elementAttributes>
-      <pos x="620" y="400"/>
+      <pos x="400" y="280"/>
     </visualElement>
     <visualElement>
       <elementName>Out</elementName>
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>out</string>
+          <string>Result</string>
         </entry>
         <entry>
           <string>Bits</string>
           <int>32</int>
         </entry>
       </elementAttributes>
-      <pos x="1020" y="380"/>
+      <pos x="700" y="300"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>data1</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>32</int>
+        </entry>
+      </elementAttributes>
+      <pos x="280" y="240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>data2</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>32</int>
+        </entry>
+      </elementAttributes>
+      <pos x="280" y="300"/>
     </visualElement>
   </visualElements>
   <wires>
     <wire>
-      <p1 x="620" y="400"/>
-      <p2 x="720" y="400"/>
+      <p1 x="280" y="240"/>
+      <p2 x="380" y="240"/>
     </wire>
     <wire>
-      <p1 x="620" y="360"/>
-      <p2 x="720" y="360"/>
+      <p1 x="380" y="320"/>
+      <p2 x="400" y="320"/>
     </wire>
     <wire>
-      <p1 x="960" y="380"/>
-      <p2 x="1020" y="380"/>
+      <p1 x="380" y="280"/>
+      <p2 x="400" y="280"/>
+    </wire>
+    <wire>
+      <p1 x="280" y="300"/>
+      <p2 x="380" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="640" y="300"/>
+      <p2 x="700" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="380" y="240"/>
+      <p2 x="380" y="280"/>
+    </wire>
+    <wire>
+      <p1 x="380" y="300"/>
+      <p2 x="380" y="320"/>
     </wire>
   </wires>
   <measurementOrdering/>

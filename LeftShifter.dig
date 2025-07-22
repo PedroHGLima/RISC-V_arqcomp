@@ -21,12 +21,12 @@
       <elementName>External</elementName>
       <elementAttributes>
         <entry>
-          <string>Label</string>
-          <string>LeftShifter</string>
-        </entry>
-        <entry>
           <string>applicationType</string>
           <appType>GHDL</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>LeftShifter</string>
         </entry>
         <entry>
           <string>externalInputs</string>
@@ -83,7 +83,7 @@ end Behavioral;</string>
       <elementAttributes>
         <entry>
           <string>Label</string>
-          <string>data_out</string>
+          <string>out</string>
         </entry>
         <entry>
           <string>Bits</string>
