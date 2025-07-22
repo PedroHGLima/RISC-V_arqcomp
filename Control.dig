@@ -35,7 +35,7 @@ entity control is
         reset       : in  STD_LOGIC;
 
         ALUsrc1     : out STD_LOGIC;
-        ALUOp       : out STD_LOGIC_VECTOR(1 downto 0);  -- 2 bits para controle da ALU
+        ALUOp       : out STD_LOGIC_VECTOR(2 downto 0);  -- 3 bits para controle da ALU
         ALUsrc      : out STD_LOGIC;
         branch      : out STD_LOGIC;
         MemRead     : out STD_LOGIC;
@@ -52,7 +52,7 @@ begin
     begin
         if reset = &apos;1&apos; then
             ALUsrc1  &lt;= &apos;0&apos;;
-            ALUOp    &lt;= &quot;00&quot;;
+            ALUOp    &lt;= &quot;000&quot;;
             ALUsrc   &lt;= &apos;0&apos;;
             branch   &lt;= &apos;0&apos;;
             MemRead  &lt;= &apos;0&apos;;
@@ -65,7 +65,7 @@ begin
             case instruction(6 downto 0) is  -- opcode RISC-V (7 bits menos significativos)
                 when &quot;0110011&quot; =&gt; -- R-type (add, sub, and, or, xor, sll, srl)
                     ALUsrc1  &lt;= &apos;0&apos;;
-                    ALUOp    &lt;= &quot;10&quot;;
+                    ALUOp    &lt;= &quot;010&quot;;
                     ALUsrc   &lt;= &apos;0&apos;;
                     branch   &lt;= &apos;0&apos;;
                     MemRead  &lt;= &apos;0&apos;;
@@ -76,7 +76,7 @@ begin
 
                 when &quot;0010011&quot; =&gt; -- I-type (addi, andi, ori, xori, slli, srli)
                     ALUsrc1  &lt;= &apos;0&apos;;
-                    ALUOp    &lt;= &quot;10&quot;;
+                    ALUOp    &lt;= &quot;010&quot;;
                     ALUsrc   &lt;= &apos;1&apos;;
                     branch   &lt;= &apos;0&apos;;
                     MemRead  &lt;= &apos;0&apos;;
@@ -87,7 +87,7 @@ begin
 
                 when &quot;0000011&quot; =&gt; -- lw
                     ALUsrc1  &lt;= &apos;0&apos;;
-                    ALUOp    &lt;= &quot;00&quot;;
+                    ALUOp    &lt;= &quot;000&quot;;
                     ALUsrc   &lt;= &apos;1&apos;;
                     branch   &lt;= &apos;0&apos;;
                     MemRead  &lt;= &apos;1&apos;;
@@ -98,7 +98,7 @@ begin
 
                 when &quot;0100011&quot; =&gt; -- sw
                     ALUsrc1  &lt;= &apos;0&apos;;
-                    ALUOp    &lt;= &quot;00&quot;;
+                    ALUOp    &lt;= &quot;000&quot;;
                     ALUsrc   &lt;= &apos;1&apos;;
                     branch   &lt;= &apos;0&apos;;
                     MemRead  &lt;= &apos;0&apos;;
@@ -109,7 +109,7 @@ begin
 
                 when &quot;1100011&quot; =&gt; -- branch (beq, bne)
                     ALUsrc1  &lt;= &apos;0&apos;;
-                    ALUOp    &lt;= &quot;01&quot;;
+                    ALUOp    &lt;= &quot;001&quot;;
                     ALUsrc   &lt;= &apos;0&apos;;
                     branch   &lt;= &apos;1&apos;;
                     MemRead  &lt;= &apos;0&apos;;
@@ -120,7 +120,7 @@ begin
 
                 when &quot;1101111&quot; =&gt; -- jal
                     ALUsrc1  &lt;= &apos;0&apos;;
-                    ALUOp    &lt;= &quot;00&quot;;
+                    ALUOp    &lt;= &quot;000&quot;;
                     ALUsrc   &lt;= &apos;0&apos;;
                     branch   &lt;= &apos;0&apos;;
                     MemRead  &lt;= &apos;0&apos;;
@@ -131,7 +131,7 @@ begin
 
                 when &quot;1100111&quot; =&gt; -- jalr
                     ALUsrc1  &lt;= &apos;0&apos;;
-                    ALUOp    &lt;= &quot;00&quot;;
+                    ALUOp    &lt;= &quot;000&quot;;
                     ALUsrc   &lt;= &apos;1&apos;;
                     branch   &lt;= &apos;0&apos;;
                     MemRead  &lt;= &apos;0&apos;;
@@ -142,7 +142,7 @@ begin
 
                 when &quot;0110111&quot; =&gt; -- lui
                     ALUsrc1  &lt;= &apos;0&apos;;
-                    ALUOp    &lt;= &quot;00&quot;;
+                    ALUOp    &lt;= &quot;000&quot;;
                     ALUsrc   &lt;= &apos;1&apos;;
                     branch   &lt;= &apos;0&apos;;
                     MemRead  &lt;= &apos;0&apos;;
@@ -153,7 +153,7 @@ begin
 
                 when &quot;0010111&quot; =&gt; -- auipc
                     ALUsrc1  &lt;= &apos;1&apos;;
-                    ALUOp    &lt;= &quot;00&quot;;
+                    ALUOp    &lt;= &quot;000&quot;;
                     ALUsrc   &lt;= &apos;1&apos;;
                     branch   &lt;= &apos;0&apos;;
                     MemRead  &lt;= &apos;0&apos;;
@@ -164,7 +164,7 @@ begin
 
                 when others =&gt;
                     ALUsrc1  &lt;= &apos;0&apos;;
-                    ALUOp    &lt;= &quot;00&quot;;
+                    ALUOp    &lt;= &quot;000&quot;;
                     ALUsrc   &lt;= &apos;0&apos;;
                     branch   &lt;= &apos;0&apos;;
                     MemRead  &lt;= &apos;0&apos;;
@@ -180,7 +180,7 @@ end Behavioral;</string>
         </entry>
         <entry>
           <string>externalOutputs</string>
-          <string>ALUsrc1,ALUOp:2,ALUsrc,branch,MemRead,MemWrite,RegWrite,MemtoReg,jump</string>
+          <string>ALUsrc1,ALUOp:3,ALUsrc,branch,MemRead,MemWrite,RegWrite,MemtoReg,jump</string>
         </entry>
       </elementAttributes>
       <pos x="400" y="240"/>

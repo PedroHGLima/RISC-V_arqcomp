@@ -56,11 +56,6 @@
       <pos x="820" y="500"/>
     </visualElement>
     <visualElement>
-      <elementName>SomadorVetorial_VHDL.dig</elementName>
-      <elementAttributes/>
-      <pos x="820" y="120"/>
-    </visualElement>
-    <visualElement>
       <elementName>EqualityComparator.dig</elementName>
       <elementAttributes/>
       <pos x="820" y="280"/>
@@ -258,6 +253,11 @@
       <elementName>ALUControl.dig</elementName>
       <elementAttributes/>
       <pos x="320" y="180"/>
+    </visualElement>
+    <visualElement>
+      <elementName>SomadorVetorial.dig</elementName>
+      <elementAttributes/>
+      <pos x="820" y="120"/>
     </visualElement>
   </visualElements>
   <wires>
